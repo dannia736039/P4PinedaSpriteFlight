@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {   
+    {
         float randomSize = Random.Range(minSize, maxSize);
         transform.localScale = new Vector3(randomSize, randomSize, 1);
 
@@ -24,6 +26,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+
     }
 }
+
