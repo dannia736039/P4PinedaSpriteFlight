@@ -1,7 +1,10 @@
 using JetBrains.Annotations;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,21 +15,36 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 5f;
     public GameObject boosterFlame;
     Rigidbody2D rb;
+    public UIDocument uiDocument;
+    private Label scoreText;
+    private Button restartButton;
 
     public GameObject explosioneEffect;
-    
+    private object bounceEffectPrefab;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        scoreText = uiDocument.rootVisualElement.Q<Label>("ScoreLabel");
+        restartButton = uiDocument.rootVisualElement.Q<Button>("RestartButton");
+        restartButton.style.display = DisplayStyle.None;
+        restartButton.clicked += ReloadScene;
     }
 
     // Update is called once per frame
     void Update()
     {
+    
+       
+
+        
         elapsedTime += Time.deltaTime;
         score = Mathf.FloorToInt(elapsedTime * scoreMultiplier);
         Debug.Log("Score: " + score);
+        scoreText.text = "Score: " + score;
         
         if (Mouse.current.leftButton.isPressed) {
             // Calculate mouse direction
@@ -60,7 +78,22 @@ public class PlayerController : MonoBehaviour
     {
         Destroy(gameObject);
         Instantiate(explosioneEffect, transform.position, transform.rotation);
+        restartButton.style.display = DisplayStyle.Flex;
+
+        Vector2 contactPoint = collision.GetContact(0).point;
+        GameObject bounceEffect = Instantiate(bounceEffectPrefab, contactPoint, Quaternion.identity);
+        // Destory the effect after 1 second
+        Destroy(bounceEffect, 1f);
+
     }
 
+    private GameObject Instantiate(object bounceEffectPrefab, Vector2 contactPoint, Quaternion identity)
+    {
+        throw new NotImplementedException();
+    }
+
+    void ReloadScene() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
