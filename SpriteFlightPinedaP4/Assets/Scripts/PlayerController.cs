@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
@@ -19,8 +20,15 @@ public class PlayerController : MonoBehaviour
     private Label scoreText;
     private Button restartButton;
 
-    public GameObject explosioneEffect;
+    public GameObject ExplosioneEffect;
     private object bounceEffectPrefab;
+
+    private GameObject Instantiate(object bounceEffectPrefab, Vector2 contactPoint, Quaternion identity)
+    {
+        throw new NotImplementedException();
+    }
+
+
 
 
 
@@ -32,21 +40,21 @@ public class PlayerController : MonoBehaviour
         restartButton = uiDocument.rootVisualElement.Q<Button>("RestartButton");
         restartButton.style.display = DisplayStyle.None;
         restartButton.clicked += ReloadScene;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-    
-       
-
-        
+      
         elapsedTime += Time.deltaTime;
         score = Mathf.FloorToInt(elapsedTime * scoreMultiplier);
-        Debug.Log("Score: " + score);
         scoreText.text = "Score: " + score;
-        
+        Debug.Log("Score: " + score);
+
+
         if (Mouse.current.leftButton.isPressed) {
+           
             // Calculate mouse direction
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
             Vector2 direction = (mousePos - transform.position).normalized;
@@ -64,11 +72,11 @@ public class PlayerController : MonoBehaviour
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-            boosterFlame.SetActive(true);
+                boosterFlame.SetActive(true);
             }
             else if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
-            boosterFlame.SetActive(false);
+                boosterFlame.SetActive(false);
             }
         }
     }
@@ -77,23 +85,30 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
-        Instantiate(explosioneEffect, transform.position, transform.rotation);
+        Instantiate(ExplosioneEffect, transform.position, transform.rotation);
         restartButton.style.display = DisplayStyle.Flex;
 
         Vector2 contactPoint = collision.GetContact(0).point;
-        GameObject bounceEffect = Instantiate(bounceEffectPrefab, contactPoint, Quaternion.identity);
+          GameObject bounceEffect = Instantiate(bounceEffectPrefab, contactPoint, Quaternion.identity);
+        
         // Destory the effect after 1 second
         Destroy(bounceEffect, 1f);
 
-    }
-
-    private GameObject Instantiate(object bounceEffectPrefab, Vector2 contactPoint, Quaternion identity)
-    {
-        throw new NotImplementedException();
     }
 
     void ReloadScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+
 }
+
+
+        
+    
+
+
+
+
+
+
