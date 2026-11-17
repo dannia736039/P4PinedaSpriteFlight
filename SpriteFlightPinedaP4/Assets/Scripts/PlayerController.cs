@@ -11,16 +11,20 @@ public class PlayerController : MonoBehaviour
 {
     private float elapsedTime = 0f;
     private float score = 0f;
+
     public float scoreMultiplier = 10f;
     public float thrustForce = 1f;
+
     public float maxSpeed = 5f;
     public GameObject boosterFlame;
+    public GameObject ExplosionEffect;
+
     Rigidbody2D rb;
+
     public UIDocument uiDocument;
     private Label scoreText;
     private Button restartButton;
 
-    public GameObject ExplosionEffect;
     private object bounceEffectPrefab;
 
     private GameObject Instantiate(object bounceEffectPrefab, Vector2 contactPoint, Quaternion identity)
@@ -78,6 +82,7 @@ public class PlayerController : MonoBehaviour
             {
                 boosterFlame.SetActive(false);
             }
+
         }
     }
 
