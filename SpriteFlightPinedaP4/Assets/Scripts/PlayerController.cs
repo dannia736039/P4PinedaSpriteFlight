@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private Label scoreText;
     private Button restartButton;
 
-    public GameObject ExplosioneEffect;
+    public GameObject ExplosionEffect;
     private object bounceEffectPrefab;
 
     private GameObject Instantiate(object bounceEffectPrefab, Vector2 contactPoint, Quaternion identity)
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
-        Instantiate(ExplosioneEffect, transform.position, transform.rotation);
+        Instantiate(ExplosionEffect, transform.position, transform.rotation);
         restartButton.style.display = DisplayStyle.Flex;
 
         Vector2 contactPoint = collision.GetContact(0).point;
