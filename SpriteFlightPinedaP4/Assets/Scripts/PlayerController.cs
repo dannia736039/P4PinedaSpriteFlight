@@ -17,13 +17,15 @@ public class PlayerController : MonoBehaviour
 
     public float maxSpeed = 5f;
     public GameObject boosterFlame;
-    public GameObject ExplosionEffect;
+    
 
     Rigidbody2D rb;
 
     public UIDocument uiDocument;
     private Label scoreText;
     private Button restartButton;
+
+    public GameObject explosionEffect;
 
     private object bounceEffectPrefab;
 
@@ -90,20 +92,22 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
-        Instantiate(ExplosionEffect, transform.position, transform.rotation);
+        Instantiate(explosionEffect, transform.position, transform.rotation);
         restartButton.style.display = DisplayStyle.Flex;
 
         Vector2 contactPoint = collision.GetContact(0).point;
-          GameObject bounceEffect = Instantiate(bounceEffectPrefab, contactPoint, Quaternion.identity);
-        
+        GameObject bounceEffect = Instantiate(bounceEffectPrefab, contactPoint, Quaternion.identity);
+
         // Destory the effect after 1 second
         Destroy(bounceEffect, 1f);
 
     }
 
-    void ReloadScene() {
+    void ReloadScene()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 
 
 }
